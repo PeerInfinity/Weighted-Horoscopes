@@ -488,7 +488,7 @@ I found yesterday's horoscope:<br/><br/>
 
 					echo "<br/>To: $to";
 					echo "<br/>Subject: $subject";
-					echo ">br/>Body:<br.?$body";
+					echo "<br/>Body:<br/>.$body";
 
 					echo "<br/>";
 					echo "<br/>";
@@ -533,41 +533,61 @@ while( count($data3) > 1 && ( $TotalActivePosts < $TotalRecentlyUsedPosts || $To
 {
 	if( $TotalActivePosts < $TotalRecentlyUsedPosts || $TotalRecentlyUsedPosts > $MaxRecentlyUsedPosts*count($TumblrEmailAddresses) )
 	{
-		$curHoroscopeID = $data3[horoscopeid];
-		
-		// search the array for the horoscope matching this ID
-		// if it's found, and it's "recently used", then mark it as "active"
-		foreach( $Horoscopes as $HoroscopeIndex => $curHoroscope )
+		if( !$data3[reactivated] )
 		{
-			if( $curHoroscope->m_ID == $curHoroscopeID )
+			$curHoroscopeID = $data3[horoscopeid];
+
+			// search the array for the horoscope matching this ID
+			// if it's found, and it's "recently used", then mark it as "active"
+			foreach( $Horoscopes as $HoroscopeIndex => $curHoroscope )
 			{
-				if  ( 
-						 $curHoroscope->m_isUsedRecently       &&
-						!$curHoroscope->m_isActive             &&
-						!$curHoroscope->m_isDownvotedBelowZero &&
-						!$curHoroscope->m_isDeleted            
-				    )
+				if( $curHoroscope->m_ID == $curHoroscopeID )
 				{
-					echo "marking horoscope $curHoroscopeID as active.";
-				
-					$query4=sprintf(
+					if  ( 
+							 $curHoroscope->m_isUsedRecently       &&
+							!$curHoroscope->m_isActive             &&
+							!$curHoroscope->m_isDownvotedBelowZero &&
+							!$curHoroscope->m_isDeleted            
+						)
+					{
+						echo "marking horoscope $curHoroscopeID as active.<br/>";
+
+						$query4=sprintf(
 "UPDATE `horoscopes` SET
 `active` = '1',
 `usedrecently` = '0'
 WHERE `horoscopes`.`ID` =%s",
 mysql_real_escape_string($curHoroscopeID)
-					);
-					$result4 = mysql_query($query4);
+						);
+						$result4 = mysql_query($query4);
 
-					if( !$result4 )
-					{
-						die('Invalid query: ' . mysql_error());
+						if( !$result4 )
+						{
+							die('Invalid query: ' . mysql_error());
+						}
+
+						$query4=sprintf(
+"UPDATE `instances` SET
+`reactivated` = '1'
+WHERE `instances`.`ID` =%s",
+mysql_real_escape_string($data3[ID])
+						);
+						$result4 = mysql_query($query4);
+
+						if( !$result4 )
+						{
+							die('Invalid query: ' . mysql_error());
+						}
+
+						$TotalActivePosts++;
+						$TotalRecentlyUsedPosts--;
 					}
-				
-					$TotalActivePosts++;
-					$TotalRecentlyUsedPosts--;
 				}
 			}
+		}
+		else
+		{
+			echo "skipping reactivated instance $data3[ID].<br/>";
 		}
 	}
 	

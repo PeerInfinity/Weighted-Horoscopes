@@ -37,7 +37,7 @@
 			echo "Score: $data[averagescore]<br/>";
 			if( $data[instancecount] <= 0 )
 			{
-				echo "Not used yet..<br/>";
+				echo "Not used yet.<br/>";
 			}
 			else if( $data[instancecount] == 1 )
 			{

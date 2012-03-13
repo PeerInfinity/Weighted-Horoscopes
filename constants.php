@@ -24,7 +24,7 @@ $DatabaseFieldNames = array(
 5 => "votes5",
 );
 
-$DefaultScore = 1;
+$DefaultScore = 3;
 
 $MaxRecentlyUsedPosts = 30;
 

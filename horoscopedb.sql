@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql.peerinfinity.com
--- Generation Time: May 22, 2011 at 01:37 AM
+-- Generation Time: Mar 13, 2012 at 03:38 PM
 -- Server version: 5.1.56
 -- PHP Version: 5.2.17
 
@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `instances` (
   `votes4` int(11) NOT NULL DEFAULT '0',
   `votes5` int(11) NOT NULL DEFAULT '0',
   `emailindex` int(11) NOT NULL,
+  `reactivated` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -90,9 +91,9 @@ CREATE TABLE IF NOT EXISTS `instances` (
 -- Dumping data for table `instances`
 --
 
-INSERT INTO `instances` (`ID`, `horoscopeid`, `postdate`, `votes1`, `votes2`, `votes3`, `votes4`, `votes5`, `emailindex`) VALUES
-(1, 13, '2011-05-22 01:28:25', 0, 0, 0, 0, 0, 0),
-(2, 17, '2011-05-22 01:28:26', 0, 0, 0, 0, 0, 0);
+INSERT INTO `instances` (`ID`, `horoscopeid`, `postdate`, `votes1`, `votes2`, `votes3`, `votes4`, `votes5`, `emailindex`, `reactivated`) VALUES
+(1, 13, '2011-05-22 01:28:25', 0, 0, 0, 0, 0, 0, 0),
+(2, 17, '2011-05-22 01:28:26', 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
